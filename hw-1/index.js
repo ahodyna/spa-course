@@ -9,6 +9,5 @@ fileInput.addEventListener("change", event => {
     if (file) {
         const url = URL.createObjectURL(file);
         video.src = url;
-        video.play()
     }
 })
