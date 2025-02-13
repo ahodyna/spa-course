@@ -1,13 +1,22 @@
 const video = document.querySelector("video");
-const fileInput = document.getElementById("fileInput");
 const uploadBtn = document.getElementById("uploadBtn");
 
-uploadBtn.addEventListener("click", () => fileInput.click());
+uploadBtn.addEventListener("click", async () => {
+    try {
+        const [fileHandle] = await window.showOpenFilePicker({
+            types: [
+                {
+                    description: "Video",
+                    accept: { "video/*": [".mp4", ".avi", ".mov", ".mkv", ".webm"] },
+                },
+            ],
+        });
 
-fileInput.addEventListener("change", event => {
-    const file = event.target.files[0];
-    if (file) {
-        const url = URL.createObjectURL(file);
-        video.src = url;
+        if (fileHandle) {
+            const videoFile = await fileHandle.getFile();
+            video.src =  URL.createObjectURL(videoFile);
+        }
+    } catch (e) {
+        console.error("Error:", e);
     }
 })
